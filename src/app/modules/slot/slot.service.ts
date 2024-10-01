@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import mongoose from 'mongoose';
 import { TSlot } from './slot.interface';
 import { Slot } from './slot.model';
 
@@ -62,13 +63,12 @@ const getAllSlot = async () => {
   const result = await Slot.find();
   return result;
 };
-const findAvailableSlots2 = async (serviceId?: string, date?: string) => {
+const findAvailableSlots2 = async (serviceId: string, date?: string) => {
   const query: any = {};
-  console.log(query);
 
   // Add serviceId filter if provided
   if (serviceId) {
-    query.service = serviceId;
+    query.service = new mongoose.Types.ObjectId(serviceId);
   }
 
   // Add date filter if provided
@@ -81,7 +81,6 @@ const findAvailableSlots2 = async (serviceId?: string, date?: string) => {
 
   // Perform the database query to find the available slots
   const availableSlots = await Slot.find(query).populate('service');
-  console.log(availableSlots);
 
   return availableSlots;
 };

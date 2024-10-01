@@ -2,9 +2,6 @@ import app from './app';
 
 import mongoose from 'mongoose';
 import config from './app/config';
-// const port = 3000;
-
-// main().catch((err) => console.log(err));
 
 async function main() {
   try {

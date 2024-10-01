@@ -15,7 +15,7 @@ export const verifyToken = (
     const authHeader = req.headers.authorization;
 
     // Log the Authorization header to see what's coming in
-    console.log('Auth Header:', authHeader);
+    // console.log('Auth Header:', authHeader);
 
     // Check if the Authorization header is present and starts with 'Bearer '
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -26,7 +26,7 @@ export const verifyToken = (
     const accessToken = authHeader.split(' ')[1];
 
     // Log the extracted access token
-    console.log('Access Token:', accessToken);
+    // console.log('Access Token:', accessToken);
 
     // Verify the access token
     jwt.verify(

@@ -10,12 +10,12 @@ const app: Application = express();
 app.use(cookieParser());
 
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:5173/'] }));
+app.use(cors());
 
 // application routes
 app.use('/api', router);
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Assignment-5');
+  res.send('Welcome to Assignment-3');
 });
 app.use(globalErrorHandler);
 app.use(notFound);

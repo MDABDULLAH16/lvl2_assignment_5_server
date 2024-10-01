@@ -13,7 +13,7 @@ const router = express.Router();
 router.post(
   '/',
   validateCreateService,
-  // auth(USER_ROLE.admin),
+  auth(USER_ROLE.admin),
   serviceController.crateService
 );
 router.get('/', serviceController.getAllServiceReq);
@@ -33,7 +33,7 @@ router.delete(
 router.post(
   '/slots',
 
-  // auth(USER_ROLE.admin),
+  auth(USER_ROLE.admin),
   slotController.createSlotReq
 );
 

@@ -14,7 +14,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!token) {
       return res.status(404).json({
         success: false,
-        message: 'Token not found',
+        message: 'You are not authorized or token invalid',
       });
     }
 
@@ -39,10 +39,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        httpStatus.UNAUTHORIZED,
-        'You are not authorized  hi!'
-      );
+      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
     }
 
     req.user = decoded as JwtPayload;

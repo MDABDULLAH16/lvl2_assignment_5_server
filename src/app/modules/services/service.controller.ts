@@ -30,7 +30,7 @@ const getSingleServiceReq = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'One service retrieved successfully',
+    message: 'Service retrieved successfully',
     data: result,
   });
 });

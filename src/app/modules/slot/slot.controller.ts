@@ -4,6 +4,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { slotServices } from './slot.service';
 import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
 // Controller function to create slots
 const createSlotReq = catchAsync(async (req, res) => {
@@ -27,42 +28,46 @@ const createSlotReq = catchAsync(async (req, res) => {
     data: slots,
   });
 });
-
 const getAvailableSlot2 = catchAsync(async (req, res) => {
-  const { serviceId, date } = req.query;
-  console.log(serviceId, date);
-  // Check if serviceId is a valid MongoDB ObjectId
-  if (serviceId && !mongoose.isValidObjectId(serviceId)) {
+  const { date, serviceId } = req.query;
+
+  // Check if both serviceId and date are provided
+  if (!serviceId || !date) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid ID',
+      message: 'Please provide both serviceId and date.',
+    });
+  }
+
+  // Check if serviceId is a valid MongoDB ObjectId
+  if (!mongoose.isValidObjectId(serviceId)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid serviceId. Please provide a valid MongoDB ObjectId.',
       errorSources: [
         {
           path: 'service',
-          message: `Invalid serviceId: "${serviceId}". Please provide a valid MongoDB ObjectId.`,
+          message: `Invalid serviceId: "${serviceId}".`,
         },
       ],
     });
   }
-  // if (!serviceId || !date) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: 'Please provide both serviceId and date.',
-  //   });
-  // }
 
+  // Call the service layer to get available slots
   const availableSlots = await slotServices.findAvailableSlots2(
-    date as string,
-    serviceId as string
+    serviceId as string,
+    date as string
   );
 
-  // if (availableSlots.length === 0) {
-  //   return res.status(404).json({
-  //     success: false,
-  //     message: 'No available slots found for the given date and service.',
-  //   });
-  // }
+  // If no available slots found, return 404
+  if (availableSlots.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No available slots found for the given date and service.',
+    });
+  }
 
+  // Respond with available slots
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -70,7 +75,6 @@ const getAvailableSlot2 = catchAsync(async (req, res) => {
     data: availableSlots,
   });
 });
-
 const getAllSlotReq = catchAsync(async (req, res) => {
   const result = await slotServices.getAllSlot();
   sendResponse(res, {

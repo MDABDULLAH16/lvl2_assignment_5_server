@@ -28,7 +28,7 @@ export const loginUser = catchAsync(async (req, res) => {
     email: userInfo.email,
     role: userInfo.role,
   };
-  const accessToken = `Bearer ${createToken(
+  const accessToken = `${createToken(
     tokenData,
     config.jwt_access_secret as string,
     config.expire_in_access as string // e.g., '15m'
@@ -63,7 +63,7 @@ export const loginUser = catchAsync(async (req, res) => {
     message: 'User logged in successfully',
     data: {
       accessToken,
-      refreshToken, // Optionally send the access token to the client
+      // refreshToken, // Optionally send the access token to the client
       userInfo,
     },
   });

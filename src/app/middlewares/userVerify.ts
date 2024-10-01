@@ -1,21 +1,21 @@
-import catchAsync from '../utils/catchAsync';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import config from '../config';
 
-export const userVerify = catchAsync(async (...roles) => (req, res, next) => {
+const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).send({ message: 'Authentication failed' });
+  }
+
   try {
-    const userRole = req.user.role;
-
-    if (!roles?.includes(userRole)) {
-      return res.json({
-        success: false,
-        message: 'You are not authorized',
-      });
-    }
-
+    const decoded = jwt.verify(token, config.jwt_access_secret as string);
+    req.user = decoded as JwtPayload; // Store the decoded user info in req.user
     next();
   } catch (error) {
-    return res.status(404).json({
-      success: false,
-      message: error,
-    });
+    return res.status(401).send({ message: 'Invalid token' });
   }
-});
+};
+
+export default authenticateUser;
