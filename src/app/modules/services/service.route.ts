@@ -27,7 +27,7 @@ router.put(
 router.delete(
   '/:_id',
 
-  auth(USER_ROLE.admin),
+  // auth(USER_ROLE.admin),
   serviceController.deleteSingleServiceReq
 );
 router.post(

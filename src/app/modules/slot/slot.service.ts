@@ -84,9 +84,17 @@ const findAvailableSlots2 = async (serviceId: string, date?: string) => {
 
   return availableSlots;
 };
+const getSingleSlot = async (serviceId: string) => {
+  const query: any = {};
+  if (serviceId) {
+    query.service = new mongoose.Types.ObjectId(serviceId);
+  }
+  const result = await Slot.find(query);
+  return result;
+};
 export const slotServices = {
   getAllSlot,
   createSlotIntoDB,
-
+  getSingleSlot,
   findAvailableSlots2,
 };

@@ -7,13 +7,16 @@ const createServiceIntoDB = async (payload: TService) => {
 };
 
 const getAllServiceFromDB = async () => {
-  const result = await Service.find();
+  // Only fetch services where isDeleted is false
+  const result = await Service.find({ isDeleted: false });
   return result;
 };
+
 const getSingleServiceFromDB = async (_id: string) => {
   const result = await Service.findOne({ _id });
   return result;
 };
+
 const updateSingleServiceIntoDB = async (_id: string, payload: TService) => {
   const result = await Service.findByIdAndUpdate(_id, payload, {
     new: true,
@@ -21,6 +24,7 @@ const updateSingleServiceIntoDB = async (_id: string, payload: TService) => {
   });
   return result;
 };
+
 const deleteSingleServiceIntoDB = async (_id: string) => {
   const result = await Service.findByIdAndUpdate(
     _id,
@@ -32,6 +36,7 @@ const deleteSingleServiceIntoDB = async (_id: string) => {
   );
   return result;
 };
+
 export const serviceServices = {
   createServiceIntoDB,
   getAllServiceFromDB,

@@ -48,13 +48,13 @@ export const loginUser = catchAsync(async (req, res) => {
     sameSite: 'strict',
   });
 
-  // Set the access token in an HTTP-only cookie
-  res.cookie('accessToken', accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
-    maxAge: 15 * 60 * 1000, // 15 minutes
-    sameSite: 'strict',
-  });
+  // // Set the access token in an HTTP-only cookie
+  // res.cookie('accessToken', accessToken, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
+  //   maxAge: 15 * 60 * 1000, // 15 minutes
+  //   sameSite: 'strict',
+  // });
 
   // Send the response with user info
   sendResponse(res, {

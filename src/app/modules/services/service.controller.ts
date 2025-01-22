@@ -25,8 +25,9 @@ const getAllServiceReq = catchAsync(async (req, res) => {
 });
 const getSingleServiceReq = catchAsync(async (req, res) => {
   const { _id } = req.params;
+  // console.log('services id', _id);
 
-  const result = await serviceServices.getSingleServiceFromDB(_id);
+  const result = await serviceServices.getSingleServiceFromDB(_id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

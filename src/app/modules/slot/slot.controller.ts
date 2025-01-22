@@ -32,12 +32,12 @@ const getAvailableSlot2 = catchAsync(async (req, res) => {
   const { date, serviceId } = req.query;
 
   // Check if both serviceId and date are provided
-  if (!serviceId || !date) {
-    return res.status(400).json({
-      success: false,
-      message: 'Please provide both serviceId and date.',
-    });
-  }
+  // if (!serviceId || !date) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: 'Please provide both serviceId and date.',
+  //   });
+  // }
 
   // Check if serviceId is a valid MongoDB ObjectId
   if (!mongoose.isValidObjectId(serviceId)) {
@@ -75,6 +75,16 @@ const getAvailableSlot2 = catchAsync(async (req, res) => {
     data: availableSlots,
   });
 });
+const getSingleSlotWithServiceIdReq = catchAsync(async (req, res) => {
+  const { _id } = req.params;
+  const result = await slotServices.getSingleSlot(_id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved all slot for this service',
+    data: result,
+  });
+});
 const getAllSlotReq = catchAsync(async (req, res) => {
   const result = await slotServices.getAllSlot();
   sendResponse(res, {
@@ -87,6 +97,6 @@ const getAllSlotReq = catchAsync(async (req, res) => {
 export const slotController = {
   getAllSlotReq,
   createSlotReq,
-
+  getSingleSlotWithServiceIdReq,
   getAvailableSlot2,
 };
