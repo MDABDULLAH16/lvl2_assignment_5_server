@@ -92,9 +92,17 @@ const getSingleSlot = async (serviceId: string) => {
   const result = await Slot.find(query);
   return result;
 };
+const updateSingleSlotIntoDB = async (_id: string, payload: TSlot) => {
+  const result = await Slot.findByIdAndUpdate(_id, payload, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
 export const slotServices = {
   getAllSlot,
   createSlotIntoDB,
   getSingleSlot,
   findAvailableSlots2,
+  updateSingleSlotIntoDB,
 };

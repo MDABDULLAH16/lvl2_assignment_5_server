@@ -94,9 +94,21 @@ const getAllSlotReq = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateSingleSlotReq = catchAsync(async (req, res) => {
+  const { _id } = req.params;
+  const data = req.body;
+  const result = await slotServices.updateSingleSlotIntoDB(_id, data);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'SLot updated successfully',
+    data: result,
+  });
+});
 export const slotController = {
   getAllSlotReq,
   createSlotReq,
   getSingleSlotWithServiceIdReq,
   getAvailableSlot2,
+  updateSingleSlotReq,
 };
