@@ -64,15 +64,25 @@ const getAllBookings = async () => {
 };
 
 const getBookingsByUser = async (userEmail: string) => {
+  // Fetch the user by email
   const user = await User.findOne({ email: userEmail });
-  // Check if user exists
+  // console.log('Logged user:', user);
+
+  // Check if the user exists
   if (!user) {
     throw new Error('User not found');
   }
-  const result = await Booking.findOne(
-    { customer: user._id },
-    { customer: 0, __v: 0 }
-  ).populate('service slot');
+
+  // Fetch all bookings for the user
+  const result = await Booking.find(
+    { customer: user._id }, // Match the user's ID
+    { __v: 0 } // Exclude internal Mongoose fields
+  )
+    .populate('service', 'name description price duration') // Populate service details
+    .populate('slot', 'date startTime endTime'); // Populate slot details
+
+  // console.log('Expected result:', result);
+
   return result;
 };
 

@@ -7,7 +7,7 @@ import AppError from '../../errors/AppError';
 const createBooking = catchAsync(async (req, res) => {
   const { user } = req; // Assuming user is added to req from authentication middleware
   if (!user) {
-    throw new Error('User not authenticated');
+    throw new AppError(httpStatus.UNAUTHORIZED, 'User not authenticated');
   }
 
   const serviceDetails = req.body;
@@ -26,6 +26,7 @@ const createBooking = catchAsync(async (req, res) => {
     data: booking,
   });
 });
+
 const getAllBookingsReq = catchAsync(async (req, res) => {
   const result = await BookingServices.getAllBookings();
   sendResponse(res, {
@@ -37,19 +38,22 @@ const getAllBookingsReq = catchAsync(async (req, res) => {
 });
 
 const getBookingsByUserReq = catchAsync(async (req, res) => {
-  const { user } = req;
-  if (!user) {
-    return new AppError(httpStatus.NOT_FOUND, 'User not found');
+  const { user } = req; // `user` should be added to the request by authentication middleware
+
+  if (!user || !user.email) {
+    throw new Error('User not authenticated');
   }
-  const Bookings = await BookingServices.getBookingsByUser(user.email);
+
+  const bookings = await BookingServices.getBookingsByUser(user.email);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User bookings retrieved successfully',
-    data: Bookings,
+    data: bookings,
   });
 });
+
 export const BookingsController = {
   createBooking,
   getAllBookingsReq,

@@ -2,6 +2,7 @@ import express from 'express';
 import { BookingsController } from './booking.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';
+
 // import authenticateUser from '../../middlewares/userVerify';
 
 const router = express.Router();
@@ -21,7 +22,7 @@ router.get(
 );
 router.get(
   '/my-bookings',
-  //   authenticateUser,
+  // authenticateUser,
   auth(USER_ROLE.user),
   BookingsController.getBookingsByUserReq
 );
