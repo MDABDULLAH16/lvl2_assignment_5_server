@@ -15,7 +15,21 @@ const createUserIntoDB = async (payload: TUser) => {
   return result;
 };
 
+const getAllUserFromDB = async () => {
+  const result = await User.find();
+  return result;
+};
+const updateUserOnDb = async (_id: string, payload: TUser) => {
+  const result = await User.findByIdAndUpdate(_id, payload, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   isUserExistIntoDB,
+  getAllUserFromDB,
+  updateUserOnDb,
 };

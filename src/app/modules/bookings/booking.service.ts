@@ -5,15 +5,8 @@ import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 
 const createBooking = async (userEmail: string, bookingDetails: TBooking) => {
-  const {
-    serviceId,
-    slotId,
-    vehicleType,
-    vehicleBrand,
-    vehicleModel,
-    manufacturingYear,
-    registrationPlate,
-  } = bookingDetails;
+  const { serviceId, slotId, serviceName, userName, email, price, time } =
+    bookingDetails;
 
   //   // Validate required fields
   if (!serviceId) {
@@ -47,11 +40,11 @@ const createBooking = async (userEmail: string, bookingDetails: TBooking) => {
     customer: customer._id,
     service: serviceId,
     slot: slotId,
-    vehicleType,
-    vehicleBrand,
-    vehicleModel,
-    manufacturingYear,
-    registrationPlate,
+    serviceName,
+    userName,
+    email,
+    price,
+    time,
   });
 
   //   Mark slot as booked

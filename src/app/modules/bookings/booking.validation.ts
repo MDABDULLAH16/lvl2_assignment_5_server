@@ -7,28 +7,13 @@ const objectIdValidation = z
     message: 'Invalid ObjectId',
   });
 
-const vehicleTypeEnum = [
-  'car',
-  'truck',
-  'SUV',
-  'van',
-  'motorcycle',
-  'bus',
-  'electricVehicle',
-  'hybridVehicle',
-  'bicycle',
-  'tractor',
-] as const;
-
 export const createBookingSchema = z.object({
   customer: z.string(),
   service: objectIdValidation,
   slot: objectIdValidation,
-  vehicleType: z.enum(vehicleTypeEnum),
-  vehicleBrand: z.string().min(1),
-  vehicleModel: z.string().min(1),
-  manufacturingYear: z.number().min(1886).max(new Date().getFullYear()),
-  registrationPlate: z
-    .string()
-    .regex(/^[A-Z0-9-]+$/, 'Invalid registration plate format'),
+  serviceName: z.string().min(1),
+  userName: z.string().min(1),
+  email: z.string().min(1),
+  price: z.number().min(1),
+  time: z.string(),
 });

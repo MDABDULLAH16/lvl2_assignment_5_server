@@ -16,23 +16,23 @@ const BookingSchema = new mongoose.Schema({
     ref: 'Slot',
     required: true,
   },
-  vehicleType: {
+  serviceName: {
     type: String,
     required: true,
   },
-  vehicleBrand: {
+  userName: {
     type: String,
     required: true,
   },
-  vehicleModel: {
+  email: {
     type: String,
     required: true,
   },
-  manufacturingYear: {
+  price: {
     type: Number,
     required: true,
   },
-  registrationPlate: {
+  time: {
     type: String,
     required: true,
   },

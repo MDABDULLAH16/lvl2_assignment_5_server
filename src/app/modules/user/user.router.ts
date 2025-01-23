@@ -10,5 +10,7 @@ router.post(
   validateRequest(userValidationSchemas.userCreateSchema),
   UserControllers.createUser
 );
+router.get('/', UserControllers.getAllUserFromDbReq);
+router.put('/:_id', UserControllers.userUpdateReq);
 
 export const UserRouter = router;
