@@ -9,8 +9,14 @@ const app: Application = express();
 // Use cookie-parser middleware
 app.use(cookieParser());
 
-app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://sparkwave-web.vercel.app'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    optionsSuccessStatus: 200,
+  })
+);
 
 // application routes
 app.use('/api', router);
