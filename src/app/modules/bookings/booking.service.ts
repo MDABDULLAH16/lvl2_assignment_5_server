@@ -1,3 +1,4 @@
+import { initialPayment } from '../payment/payment.utils';
 import { Service } from '../services/service.model';
 import { Slot } from '../slot/slot.model';
 import { User } from '../user/user.model';
@@ -35,6 +36,7 @@ const createBooking = async (userEmail: string, bookingDetails: TBooking) => {
     throw new Error('User not found');
   }
 
+  const transactionId = `TNX-${Date.now()}`;
   // Create booking
   const booking = await Booking.create({
     customer: customer._id,
@@ -44,18 +46,31 @@ const createBooking = async (userEmail: string, bookingDetails: TBooking) => {
     userName,
     email,
     price,
+
     time,
+    paymentStatus: 'Pending',
+    status: 'Pending',
+    transactionId,
   });
 
   //   Mark slot as booked
   slot.isBooked = 'booked';
   await slot.save();
+  const paymentData = {
+    totalPrice: price,
+    customerName: userName,
+    customerEmail: userEmail,
+    transactionId,
+  };
+  //apply payment gateway;
+  const paymentRes = await initialPayment(paymentData);
+  // console.log('peyment res', paymentRes);
 
   //   Populate service and customer details in the response
   await booking.populate('customer', 'name email phone address');
   await booking.populate('service', 'name description price duration');
   await booking.populate('slot', 'date startTime endTime');
-  return booking;
+  return paymentRes;
 };
 
 const getAllBookings = async () => {

@@ -11,11 +11,14 @@ const createBooking = catchAsync(async (req, res) => {
   }
 
   const serviceDetails = req.body;
+  
 
   // Call the booking service to handle booking logic
   const booking = await BookingServices.createBooking(
     user.email,
-    serviceDetails
+    serviceDetails,
+    
+
   );
 
   // Send the successful booking response
